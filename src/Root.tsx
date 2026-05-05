@@ -11,7 +11,10 @@ import { RemotionPrecisionExample } from "./Compositions/RemotionPrecisionExampl
 import { AIVsRemotion } from "./Compositions/AIVsRemotion/AIVsRemotion";
 import { ShowcaseFeatures } from "./Compositions/ShowcaseFeatures/ShowcaseFeatures";
 import { AIAsistentes } from "./Compositions/AIAsistentes/AIAsistentes";
+import { StackConfig } from "./Compositions/StackConfig/StackConfig";
 import { HypnozIntro } from "./Compositions/HypnozIntro/HypnozIntro";
+import { AntigravityPlan } from "./Compositions/AntigravityPlan/AntigravityPlan";
+
 
 
 export const RemotionRoot: React.FC = () => {
@@ -113,6 +116,23 @@ export const RemotionRoot: React.FC = () => {
         width={3840}
         height={2160}
       />
+      <Composition
+        id="StackConfig"
+        component={StackConfig}
+        durationInFrames={341}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="AntigravityPlan"
+        component={AntigravityPlan}
+        durationInFrames={285}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
     </>
+
   );
 };

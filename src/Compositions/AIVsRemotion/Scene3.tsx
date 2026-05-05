@@ -1,87 +1,208 @@
 import React from "react";
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Video, staticFile } from "remotion";
-import { DarkTechBackground } from "../../Components/DarkTechBackground";
+import {
+  AbsoluteFill,
+  useCurrentFrame,
+  interpolate,
+  spring,
+  useVideoConfig,
+  staticFile,
+} from "remotion";
+import { Video } from "@remotion/media";
+
+const IA_CYAN = "#00FBFF";
+const REMOTION_GREEN = "#39FF14";
 
 export const Scene3: React.FC = () => {
   const frame = useCurrentFrame();
-  const { fps, width } = useVideoConfig();
-  const s = width / 1280;
+  const { fps, width, height } = useVideoConfig();
+  const s = Math.min(width, height) / 1280;
 
-  const splitProgress = spring({
+  const ITEM_H = height * 0.62;
+  const ITEM_W = ITEM_H * (9 / 16);
+  const GAP = 100 * s;
+
+  // IA card enters from the left
+  const iaProgress = spring({ frame, fps, config: { damping: 14, stiffness: 60 } });
+  const iaX = interpolate(iaProgress, [0, 1], [-ITEM_W * 1.5, 0]);
+
+  // Remotion card enters from the right at Part 2 (frame 68)
+  const remotionProgress = spring({
     frame: frame - 68,
     fps,
-    config: { damping: 15 },
+    config: { damping: 14, stiffness: 60 },
+  });
+  const remotionX = interpolate(remotionProgress, [0, 1], [ITEM_W * 1.5, 0]);
+
+  // Labels fade in with their cards
+  const iaLabelOpacity = spring({ frame, fps, config: { damping: 16 } });
+  const remotionLabelOpacity = spring({
+    frame: frame - 68,
+    fps,
+    config: { damping: 16 },
+  });
+
+  // "CREATIVA" appears after IA card settles (~frame 20)
+  const iaCharOpacity = spring({
+    frame: frame - 20,
+    fps,
+    config: { damping: 14 },
+  });
+
+  // "CONSISTENTE" appears after Remotion card settles (~frame 90)
+  const remotionCharOpacity = spring({
+    frame: frame - 90,
+    fps,
+    config: { damping: 14 },
   });
 
   return (
-    <DarkTechBackground>
-      <AbsoluteFill style={{ display: "flex", flexDirection: "row" }}>
-        {/* IA Side (Creativity) */}
-        <div style={{
-          flex: 1,
-          position: "relative",
-          borderRight: `${2 * s}px solid rgba(255,255,255,0.1)`,
-          overflow: "hidden",
-        }}>
-          <Video
-            src={staticFile("generations/with_ia/result_4.mp4")}
-            style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.6 }}
-            muted
-            loop
-          />
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0,0,0,0.4)",
-          }}>
-            <h2 style={{
-              color: "white",
-              fontSize: 80 * s,
-              textAlign: "center",
-              transform: `scale(${interpolate(frame, [0, 68], [1, 1.2], { extrapolateRight: "clamp" })})`,
-            }}>
-              LA IA ES <br/> <span style={{ color: "#FF3B30", fontSize: 100 * s }}>CREATIVA</span>
-            </h2>
-          </div>
+    <AbsoluteFill
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: GAP,
+      }}
+    >
+      {/* IA column */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24 * s,
+          transform: `translateX(${iaX}px)`,
+          opacity: iaProgress,
+        }}
+      >
+        {/* Label */}
+        <div
+          style={{
+            fontSize: 56 * s,
+            fontWeight: "bold",
+            color: IA_CYAN,
+            textShadow: `0 0 ${30 * s}px rgba(0,251,255,0.5)`,
+            opacity: iaLabelOpacity,
+            whiteSpace: "nowrap",
+          }}
+        >
+          Con IA
         </div>
 
-        {/* Remotion Side (Consistency) */}
-        <div style={{
-          flex: splitProgress,
-          position: "relative",
-          overflow: "hidden",
-          width: `${splitProgress * 100}%`,
-          opacity: splitProgress,
-        }}>
+        {/* Video card */}
+        <div
+          style={{
+            width: ITEM_W,
+            height: ITEM_H,
+            borderRadius: 20 * s,
+            overflow: "hidden",
+            border: `${2 * s}px solid rgba(0,251,255,0.35)`,
+            boxShadow: `0 0 ${40 * s}px rgba(0,251,255,0.15)`,
+            backgroundColor: "#111",
+            flexShrink: 0,
+          }}
+        >
           <Video
-            src={staticFile("generations/with_remotion/result_4.mp4")}
+            src={staticFile("assets/generations/with_ia/result_1.mp4")}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
             muted
             loop
           />
-          <div style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0,0,0,0.6)",
-            backdropFilter: "blur(5px)",
-          }}>
-            <h2 style={{
-              color: "white",
-              fontSize: 80 * s,
-              textAlign: "center",
-              transform: `scale(${interpolate(frame, [68, 143], [1, 1.1], { extrapolateRight: "clamp" })})`,
-            }}>
-              REMOTION ES <br/> <span style={{ color: "#00FBFF", fontSize: 100 * s }}>CONSISTENTE</span>
-            </h2>
-          </div>
         </div>
-      </AbsoluteFill>
-    </DarkTechBackground>
+
+        {/* Characteristic */}
+        <div
+          style={{
+            fontSize: 48 * s,
+            fontWeight: "bold",
+            color: IA_CYAN,
+            textShadow: `0 0 ${20 * s}px rgba(0,251,255,0.4)`,
+            opacity: iaCharOpacity,
+            whiteSpace: "nowrap",
+          }}
+        >
+          CREATIVA
+        </div>
+      </div>
+
+      {/* VS divider */}
+      <div
+        style={{
+          fontSize: 40 * s,
+          fontWeight: "bold",
+          color: "rgba(255,255,255,0.2)",
+          letterSpacing: 4 * s,
+          opacity: interpolate(frame, [68, 85], [0, 1], {
+            extrapolateLeft: "clamp",
+            extrapolateRight: "clamp",
+          }),
+          flexShrink: 0,
+        }}
+      >
+        VS
+      </div>
+
+      {/* Remotion column */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 24 * s,
+          transform: `translateX(${remotionX}px)`,
+          opacity: remotionProgress,
+        }}
+      >
+        {/* Label */}
+        <div
+          style={{
+            fontSize: 56 * s,
+            fontWeight: "bold",
+            color: REMOTION_GREEN,
+            textShadow: `0 0 ${30 * s}px rgba(57,255,20,0.5)`,
+            opacity: remotionLabelOpacity,
+            whiteSpace: "nowrap",
+          }}
+        >
+          Con Remotion
+        </div>
+
+        {/* Video card */}
+        <div
+          style={{
+            width: ITEM_W,
+            height: ITEM_H,
+            borderRadius: 20 * s,
+            overflow: "hidden",
+            border: `${2 * s}px solid rgba(57,255,20,0.35)`,
+            boxShadow: `0 0 ${40 * s}px rgba(57,255,20,0.15)`,
+            backgroundColor: "#111",
+            flexShrink: 0,
+          }}
+        >
+          <Video
+            src={staticFile("assets/generations/with_remotion/result_1.mp4")}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            muted
+            loop
+          />
+        </div>
+
+        {/* Characteristic */}
+        <div
+          style={{
+            fontSize: 48 * s,
+            fontWeight: "bold",
+            color: REMOTION_GREEN,
+            textShadow: `0 0 ${20 * s}px rgba(57,255,20,0.4)`,
+            opacity: remotionCharOpacity,
+            whiteSpace: "nowrap",
+          }}
+        >
+          CONSISTENTE
+        </div>
+      </div>
+    </AbsoluteFill>
   );
 };

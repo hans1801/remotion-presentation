@@ -9,18 +9,18 @@ export const ShowcaseFeatures: React.FC = () => {
   return (
     <DarkTechBackground>
       <AbsoluteFill>
-        {/* Scene 1: Infografias (45 frames) */}
-        <Sequence durationInFrames={45}>
+        {/* Scene 1: Infografias (60 frames) */}
+        <Sequence durationInFrames={60}>
           <SceneInfografias />
         </Sequence>
 
-        {/* Scene 2: Reportes Visuales (52 frames) */}
-        <Sequence from={45} durationInFrames={52}>
+        {/* Scene 2: Reportes Visuales (70 frames) */}
+        <Sequence from={60} durationInFrames={70}>
           <SceneReportes />
         </Sequence>
 
-        {/* Scene 3: Subtitulos dinamicos (56 frames) */}
-        <Sequence from={45 + 52} durationInFrames={56}>
+        {/* Scene 3: Subtitulos dinamicos (80 frames) */}
+        <Sequence from={60 + 70} durationInFrames={80}>
           <SceneSubtitulos />
         </Sequence>
       </AbsoluteFill>

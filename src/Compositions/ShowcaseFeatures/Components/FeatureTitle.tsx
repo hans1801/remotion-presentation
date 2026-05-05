@@ -16,7 +16,7 @@ export const FeatureTitle: React.FC<Props> = ({ title }) => {
     config: { damping: 12 },
   });
 
-  const glow = interpolate(frame % 60, [0, 30, 60], [0.4, 0.8, 0.4]);
+  const glow = interpolate(frame % 60, [0, 10, 20], [0.2, 0.8, 0.2]);
 
   return (
     <div style={{

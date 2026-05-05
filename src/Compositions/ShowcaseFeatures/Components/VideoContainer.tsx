@@ -5,12 +5,14 @@ interface Props {
   src: string;
   widthPercent?: number;
   aspectRatio?: number;
+  startFrom?: number;
 }
 
 export const VideoContainer: React.FC<Props> = ({ 
   src, 
   widthPercent = 80,
-  aspectRatio = 16 / 9 
+  aspectRatio = 16 / 9,
+  startFrom = 0
 }) => {
   const { width, fps } = useVideoConfig();
   const frame = useCurrentFrame();
@@ -28,45 +30,38 @@ export const VideoContainer: React.FC<Props> = ({
       aspectRatio: `${aspectRatio}`,
       borderRadius: 30 * s,
       overflow: "hidden",
-      border: `${3 * s}px solid rgba(255, 255, 255, 0.1)`,
+      border: `${3 * s}px solid rgba(0, 251, 255, 0.3)`,
       background: "#000",
-      boxShadow: `0 40 * s ${100 * s}px rgba(0,0,0,0.5), 0 0 ${50 * s}px rgba(0, 251, 255, 0.1)`,
+      boxShadow: `
+        0 ${40 * s}px ${100 * s}px rgba(0,0,0,0.5), 
+        0 0 ${50 * s}px rgba(0, 251, 255, 0.1),
+        inset 0 0 ${30 * s}px rgba(0, 251, 255, 0.05)
+      `,
       transform: `scale(${interpolate(reveal, [0, 1], [0.9, 1])}) translateY(${interpolate(reveal, [0, 1], [30 * s, 0])}px)`,
       opacity: reveal,
       position: "relative",
     }}>
       <Video
         src={staticFile(src)}
+        startFrom={startFrom}
         style={{
           width: "100%",
           height: "100%",
-          objectFit: "cover",
+          objectFit: "contain",
         }}
         muted
         loop
       />
       
-      {/* Decorative corners */}
+      {/* Scanning effect overlay */}
       <div style={{
         position: "absolute",
-        top: 20 * s,
-        right: 20 * s,
-        width: 100 * s,
-        height: 40 * s,
-        background: "rgba(0, 251, 255, 0.2)",
-        backdropFilter: "blur(5px)",
-        borderRadius: 5 * s,
-        border: `${s}px solid rgba(0, 251, 255, 0.4)`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#00FBFF",
-        fontSize: 14 * s,
-        fontFamily: "monospace",
-        fontWeight: "bold",
-      }}>
-        LIVE_PREVIEW
-      </div>
+        inset: 0,
+        background: "linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03))",
+        backgroundSize: `100% ${4 * s}px, ${6 * s}px 100%`,
+        pointerEvents: "none",
+        opacity: 0.3,
+      }} />
     </div>
   );
 };

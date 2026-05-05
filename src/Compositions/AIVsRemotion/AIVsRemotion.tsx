@@ -9,18 +9,18 @@ export const AIVsRemotion: React.FC = () => {
   return (
     <DarkTechBackground>
       <AbsoluteFill>
-        {/* Scene 1: IA Inconsistency */}
-        <Sequence durationInFrames={151}>
+        {/* Scene 1: IA Inconsistency — Part 1 (140f) + Part 2 (131f) */}
+        <Sequence durationInFrames={271}>
           <Scene1 />
         </Sequence>
 
-        {/* Scene 2: Remotion Precision */}
-        <Sequence from={151} durationInFrames={353}>
+        {/* Scene 2: Remotion Precision — Part 1 (193f) + Part 2 (180f) */}
+        <Sequence from={271} durationInFrames={373}>
           <Scene2 />
         </Sequence>
 
         {/* Scene 3: Conclusion */}
-        <Sequence from={151 + 353} durationInFrames={143}>
+        <Sequence from={271 + 373} durationInFrames={143}>
           <Scene3 />
         </Sequence>
       </AbsoluteFill>

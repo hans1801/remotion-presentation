@@ -82,7 +82,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="AIVsRemotion"
         component={AIVsRemotion}
-        durationInFrames={647}
+        durationInFrames={787}
         fps={30}
         width={3840}
         height={2160}
@@ -90,7 +90,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ShowcaseFeatures"
         component={ShowcaseFeatures}
-        durationInFrames={153}
+        durationInFrames={210}
         fps={30}
         width={3840}
         height={2160}

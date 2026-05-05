@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, useVideoConfig, Video, staticFile, interpolate, useCurrentFrame } from "remotion";
+import { useVideoConfig, staticFile, interpolate } from "remotion";
+import { Video } from "@remotion/media";
 
 interface Props {
   videoPaths: string[];
@@ -9,13 +10,25 @@ interface Props {
 
 export const VideoGrid: React.FC<Props> = ({ videoPaths, columns = 3, opacity = 1 }) => {
   const { width, height } = useVideoConfig();
-  const frame = useCurrentFrame();
-  const s = width / 1280;
+  // Use shorter dimension so sizes stay consistent across orientations
+  const s = Math.min(width, height) / 1280;
+  const isLandscape = width > height;
 
   const gap = 40 * s;
-  const gridWidth = width * 0.8;
-  const itemWidth = (gridWidth - (columns - 1) * gap) / columns;
-  const itemHeight = itemWidth * (9 / 16);
+
+  // In landscape: cap item height to 65% of canvas height, derive width from portrait 9:16 ratio.
+  // In portrait:  size by width as usual, derive height from portrait 9:16 ratio.
+  let itemWidth: number;
+  let itemHeight: number;
+
+  if (isLandscape) {
+    itemHeight = height * 0.65;
+    itemWidth = itemHeight * (9 / 16);
+  } else {
+    const gridWidth = width * 0.8;
+    itemWidth = (gridWidth - (columns - 1) * gap) / columns;
+    itemHeight = itemWidth * (16 / 9);
+  }
 
   return (
     <div style={{
@@ -37,14 +50,11 @@ export const VideoGrid: React.FC<Props> = ({ videoPaths, columns = 3, opacity = 
           boxShadow: `0 0 ${30 * s}px rgba(0, 251, 255, 0.1)`,
           position: "relative",
           backgroundColor: "#111",
+          flexShrink: 0,
         }}>
           <Video
             src={staticFile(path)}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-            }}
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
             muted
             loop
           />

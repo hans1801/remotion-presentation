@@ -10,6 +10,8 @@ import { IADemonstration } from "./Compositions/IADemonstration/IADemonstration"
 import { RemotionPrecisionExample } from "./Compositions/RemotionPrecisionExample/RemotionPrecisionExample";
 import { AIVsRemotion } from "./Compositions/AIVsRemotion/AIVsRemotion";
 import { ShowcaseFeatures } from "./Compositions/ShowcaseFeatures/ShowcaseFeatures";
+import { AIAsistentes } from "./Compositions/AIAsistentes/AIAsistentes";
+import { HypnozIntro } from "./Compositions/HypnozIntro/HypnozIntro";
 
 
 export const RemotionRoot: React.FC = () => {
@@ -91,6 +93,22 @@ export const RemotionRoot: React.FC = () => {
         id="ShowcaseFeatures"
         component={ShowcaseFeatures}
         durationInFrames={210}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="AIAsistentes"
+        component={AIAsistentes}
+        durationInFrames={280}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="HypnozIntro"
+        component={HypnozIntro}
+        durationInFrames={546}
         fps={30}
         width={3840}
         height={2160}

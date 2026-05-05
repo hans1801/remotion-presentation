@@ -12,6 +12,8 @@ import { AIVsRemotion } from "./Compositions/AIVsRemotion/AIVsRemotion";
 import { ShowcaseFeatures } from "./Compositions/ShowcaseFeatures/ShowcaseFeatures";
 import { AIAsistentes } from "./Compositions/AIAsistentes/AIAsistentes";
 import { StackConfig } from "./Compositions/StackConfig/StackConfig";
+import { StackOverlay } from "./Compositions/StackConfig/StackOverlay";
+import { LinkOverlay } from "./Compositions/StackConfig/LinkOverlay";
 import { HypnozIntro } from "./Compositions/HypnozIntro/HypnozIntro";
 import { AntigravityPlan } from "./Compositions/AntigravityPlan/AntigravityPlan";
 
@@ -128,6 +130,22 @@ export const RemotionRoot: React.FC = () => {
         id="AntigravityPlan"
         component={AntigravityPlan}
         durationInFrames={285}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="StackOverlay"
+        component={StackOverlay}
+        durationInFrames={70}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="LinkOverlay"
+        component={LinkOverlay}
+        durationInFrames={168}
         fps={30}
         width={3840}
         height={2160}

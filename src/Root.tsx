@@ -16,6 +16,11 @@ import { StackOverlay } from "./Compositions/StackConfig/StackOverlay";
 import { LinkOverlay } from "./Compositions/StackConfig/LinkOverlay";
 import { HypnozIntro } from "./Compositions/HypnozIntro/HypnozIntro";
 import { AntigravityPlan } from "./Compositions/AntigravityPlan/AntigravityPlan";
+import { StackInstall } from "./Compositions/StackInstall/StackInstall";
+import { PrevConfig } from "./Compositions/Titles/PrevConfig";
+import { InstallRemotion } from "./Compositions/Titles/InstallRemotion";
+import { Top10Anim } from "./Compositions/Titles/Top10Anim";
+import { RemotionClaude } from "./Compositions/Showcase/RemotionClaude";
 
 
 
@@ -146,6 +151,46 @@ export const RemotionRoot: React.FC = () => {
         id="LinkOverlay"
         component={LinkOverlay}
         durationInFrames={168}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="StackInstall"
+        component={StackInstall}
+        durationInFrames={839}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="PrevConfig"
+        component={PrevConfig}
+        durationInFrames={30}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="InstallRemotion"
+        component={InstallRemotion}
+        durationInFrames={30}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="Top10Anim"
+        component={Top10Anim}
+        durationInFrames={30}
+        fps={30}
+        width={3840}
+        height={2160}
+      />
+      <Composition
+        id="RemotionClaude"
+        component={RemotionClaude}
+        durationInFrames={145}
         fps={30}
         width={3840}
         height={2160}
